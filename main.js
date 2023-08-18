@@ -74,7 +74,7 @@ app.whenReady().then(() => {
   run_script(
     "open -a 'Google Chrome.app'",
     [
-      " --args",
+      "--args",
       "--disable-web-security",
       "--user-data-dir=" + os.userInfo().homedir + "/Documents/MyChromeDevUserData",
     ],
