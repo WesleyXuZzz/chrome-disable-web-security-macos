@@ -1,5 +1,6 @@
-//Uses node.js process manager
+// Uses node.js process manager
 const { app, BrowserWindow, dialog } = require("electron");
+const os = require("os");
 const path = require("path");
 const child_process = require("child_process");
 
@@ -23,7 +24,7 @@ function run_script(command, args, callback) {
 
   child.stdout.setEncoding("utf8");
   child.stdout.on("data", (data) => {
-    //Here is the output
+    // Here is the output
     data = data.toString();
     console.log(data);
     dialog.showMessageBox({
@@ -44,7 +45,7 @@ function run_script(command, args, callback) {
       },
     });
     mainWindow.webContents.send("mainprocess-response", data);
-    //Here is the output from the command
+    // Here is the output from the command
     console.log(data);
     dialog.showMessageBox({
       title: "Title",
@@ -54,7 +55,7 @@ function run_script(command, args, callback) {
   });
 
   child.on("close", (code) => {
-    //Here you can get the exit code of the script
+    // Here you can get the exit code of the script
     switch (code) {
       case 0:
         // dialog.showMessageBox({
@@ -71,8 +72,12 @@ function run_script(command, args, callback) {
 
 app.whenReady().then(() => {
   run_script(
-    "open -a 'Google Chrome.app' --args --disable-web-security --user-data-dir=/Users/ROOT/Documents/MyChromeDevUserData",
-    [],
+    "open -a 'Google Chrome.app'",
+    [
+      " --args",
+      "--disable-web-security",
+      "--user-data-dir=" + os.userInfo().homedir + "/Documents/MyChromeDevUserData",
+    ],
     null
   );
 });
